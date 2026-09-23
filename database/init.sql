@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS catalogo_objetos (
     descripcion TEXT,
     valor_base DECIMAL(10, 2) NOT NULL,
     es_ilegal BOOLEAN DEFAULT FALSE,
-    rareza ENUM('comun', 'raro', 'epico', 'legendario') DEFAULT 'comun'
+    rareza ENUM('comun', 'raro', 'epico', 'legendario') DEFAULT 'comun',
+    imagen VARCHAR(100) DEFAULT 'default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS inventario (
@@ -30,9 +31,9 @@ CREATE TABLE IF NOT EXISTS inventario (
     CONSTRAINT fk_inventario_objeto FOREIGN KEY (objeto_id) REFERENCES catalogo_objetos(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO catalogo_objetos (nombre, descripcion, valor_base, es_ilegal, rareza) VALUES
-('Reloj de bolsillo oxidado', 'Un viejo reloj mecánico que aún hace tic-tac.', 45.00, FALSE, 'comun'),
-('Cartucho de juego retro', 'Una reliquia de plástico de una consola antigua.', 30.00, FALSE, 'comun'),
-('Chip de datos militar encriptado', 'Procedente de dudosa procedencia. Los cuerpos de seguridad lo persiguen.', 250.00, TRUE, 'raro'),
-('Estatua de bronce pequeña', 'Pesada y con inscripciones extrañas.', 120.00, FALSE, 'raro'),
-('Pistola de plasma modificada', 'Arma de mano alterada ilegalmente en los callejones.', 600.00, TRUE, 'epico');
+INSERT INTO catalogo_objetos (nombre, descripcion, valor_base, es_ilegal, rareza, imagen) VALUES
+('Reloj de bolsillo oxidado', 'Un viejo reloj mecánico que aún hace tic-tac.', 45.00, FALSE, 'comun', 'reloj.png'),
+('Cartucho de juego retro', 'Una reliquia de plástico de una consola antigua.', 30.00, FALSE, 'comun', 'cartucho.png'),
+('Chip de datos militar encriptado', 'Procedente de dudosa procedencia. Los cuerpos de seguridad lo persiguen.', 250.00, TRUE, 'raro', 'chip.png'),
+('Estatua de bronce pequeña', 'Pesada y con inscripciones extrañas.', 120.00, FALSE, 'raro', 'estatua.png'),
+('Pistola de plasma modificada', 'Arma de mano alterada ilegalmente en los callejones.', 600.00, TRUE, 'epico', 'pistola.png');
