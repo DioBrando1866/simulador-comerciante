@@ -8,37 +8,37 @@ function actualizarPrecio(objetoId, inputElement) {
     console.log(`[TASACIÓN] Objeto ID ${objetoId} actualizado a ${inputElement.value} €`);
 }
 
-// Secuencia al llamar a un cliente
 function llamarCliente() {
     const counterBox = document.getElementById('counterBox');
     const counterText = document.getElementById('counterText');
     const btnLlamar = document.getElementById('btnLlamarCliente');
 
-    // Desactivar el botón temporalmente para evitar spam
     if (btnLlamar) btnLlamar.disabled = true;
 
-    // 1. Desvanecer el texto poco a poco
-    if (counterText) counterText.classList.add('fade-out');
+    if (counterText) {
+        counterText.classList.add('fade-out');
+    }
 
-    // 2. Tras un breve momento, abrir las puertas del fondo por la mitad
     setTimeout(() => {
-        counterBox.classList.add('opening');
-    }, 600);
+        if (counterBox) {
+            counterBox.classList.add('opening');
+        }
+    }, 400);
 
-    // 3. Mostrar la burbuja de texto pixelada con el placeholder cuando termine la apertura
     setTimeout(() => {
-        mostrarBurbujaDialogo("... (El cliente cruza el umbral y espera en silencio a que le hables) ...");
-    }, 1500);
+        mostrarBurbujaDialogo("... (El cliente se acerca al mostrador y te observa en silencio) ...");
+    }, 1200);
 }
 
 function mostrarBurbujaDialogo(textoPlaceholder) {
     const counterBox = document.getElementById('counterBox');
+    if (!counterBox) return;
     
-    // Evitar duplicados si ya hay una burbuja
     const burbujaExistente = document.getElementById('dialogueBubble');
-    if (burbujaExistente) burbujaExistente.remove();
+    if (burbujaExistente) {
+        burbujaExistente.remove();
+    }
 
-    // Crear la burbuja de diálogo
     const bubble = document.createElement('div');
     bubble.id = 'dialogueBubble';
     bubble.className = 'dialogue-bubble';
@@ -46,8 +46,34 @@ function mostrarBurbujaDialogo(textoPlaceholder) {
 
     counterBox.appendChild(bubble);
 
-    // Forzar reflow y activar la transición de aparición
     setTimeout(() => {
         bubble.classList.add('show');
     }, 50);
+}
+
+function abrirMenuPausa() {
+    const modal = document.getElementById('pauseModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function cerrarMenuPausa() {
+    const modal = document.getElementById('pauseModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function guardarPartida() {
+    alert("Partida guardada correctamente (Simulación).");
+    cerrarMenuPausa();
+}
+
+function cargarPartida() {
+    alert("No hay partidas guardadas recientes.");
+}
+
+function abrirOpciones() {
+    alert("Panel de opciones en desarrollo.");
 }
