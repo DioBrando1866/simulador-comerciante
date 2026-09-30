@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS inventario (
     CONSTRAINT fk_inventario_objeto FOREIGN KEY (objeto_id) REFERENCES catalogo_objetos(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insertamos los objetos enlazándolos con los iconos de tu carpeta assets/icons/
 INSERT INTO catalogo_objetos (nombre, descripcion, valor_base, es_ilegal, rareza, imagen) VALUES
 ('Reloj de bolsillo oxidado', 'Un viejo reloj mecánico que aún hace tic-tac.', 45.00, FALSE, 'comun', 'Icon14_01.png'),
 ('Cartucho de juego retro', 'Una reliquia de plástico de una consola antigua.', 30.00, FALSE, 'comun', 'Icon14_02.png'),

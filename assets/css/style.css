@@ -140,8 +140,11 @@ h2 {
     min-height: 0;
 }
 
+/* --- MOSTRADOR Y ANIMACIÓN DE PUERTAS --- */
 .counter-box {
     flex: 1;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -149,16 +152,161 @@ h2 {
     border: 2px dashed var(--border-vintage);
     border-radius: 2px;
     padding: 20px;
-    text-align: center;
     background: #151210;
+    min-height: 220px; /* Incrementado para dar más espacio vertical */
 }
 
-.counter-box p {
+.counter-door {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: #181411;
+    border: 2px solid var(--border-vintage);
+    z-index: 2;
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 5px rgba(212, 175, 55, 0.1);
+}
+
+.counter-door::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.counter-door.door-left {
+    left: 0;
+    border-right: 3px solid var(--border-gold);
+}
+
+.counter-door.door-right {
+    right: 0;
+    border-left: 3px solid var(--border-gold);
+}
+
+.counter-box.opening .door-left {
+    transform: translateX(-100%);
+}
+
+.counter-box.opening .door-right {
+    transform: translateX(100%);
+}
+
+/* --- CONTENEDOR DEL CLIENTE Y RETRATO GRANDE A LA IZQUIERDA --- */
+.client-container {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    position: relative;
+    z-index: 3;
+    justify-content: flex-start;
+}
+
+.client-portrait-frame {
+    width: 170px; /* Ampliado de 135px a 170px */
+    height: 170px; /* Ampliado de 135px a 170px */
+    background: #151210;
+    border: 3px solid var(--border-gold);
+    padding: 4px;
+    flex-shrink: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+}
+
+.client-portrait-sprite {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 400% 200%; /* Forzar un reescalado exacto de la rejilla de 4x2 */
+    image-rendering: pixelated;
+}
+
+/* --- BURBUJA DE DIÁLOGO TIPO RPG --- */
+.dialogue-bubble {
+    position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--gold);
+    padding: 18px 22px;
+    border-radius: 4px;
+    flex-grow: 1;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    font-family: 'Courier New', Courier, monospace;
+    color: var(--text-main);
+    text-align: left;
+    image-rendering: pixelated;
+    animation: aparecerBurbuja 0.4s ease-out forwards;
+}
+
+.dialogue-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -12px;
+    transform: translateY(-50%);
+    border-width: 10px 12px 10px 0;
+    border-style: solid;
+    border-color: transparent var(--gold) transparent transparent;
+    display: block;
+    width: 0;
+}
+
+@keyframes aparecerBurbuja {
+    0% {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dialogue-bubble h3 {
+    font-size: 14px; /* Ligeramente más grande */
+    color: var(--gold);
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dialogue-bubble p {
+    font-size: 13px; /* Texto más legible y amplio */
     color: var(--text-muted);
+    margin: 0 0 12px 0;
     font-style: italic;
-    font-size: 1rem;
+    line-height: 1.4;
 }
 
+.no-client-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--text-muted);
+    font-size: 12px;
+    position: relative;
+    z-index: 4;
+}
+
+.negotiation-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+/* --- RESTO DE ELEMENTOS Y COMPONENTES --- */
 .inventory-grid {
     flex: 1;
     display: grid;
@@ -314,168 +462,6 @@ button:hover {
     -moz-appearance: textfield;
 }
 
-
-.counter-box {
-    position: relative;
-    overflow: hidden;
-}
-
-.counter-text {
-    transition: opacity 0.8s ease;
-}
-
-.counter-text.fade-out {
-    opacity: 0;
-}
-
-.door-panel {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    background: #151210;
-    border: 2px dashed var(--border-vintage);
-    z-index: 2;
-    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.door-left {
-    left: 0;
-    border-right: none;
-}
-
-.door-right {
-    right: 0;
-    border-left: none;
-}
-
-.counter-box.opening .door-left {
-    transform: translateX(-100%);
-}
-
-.counter-box.opening .door-right {
-    transform: translateX(100%);
-}
-
-.dialogue-bubble {
-    position: absolute;
-    z-index: 5;
-    background: var(--bg-card);
-    border: 2px solid var(--gold);
-    padding: 16px 20px;
-    border-radius: 4px;
-    max-width: 80%;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
-    font-family: 'Courier New', Courier, monospace;
-    color: var(--text-main);
-    opacity: 0;
-    transform: scale(0.95);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    
-    image-rendering: pixelated;
-}
-
-.dialogue-bubble.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.dialogue-bubble::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 30px;
-    border-width: 10px 10px 0;
-    border-style: solid;
-    border-color: var(--gold) transparent;
-    display: block;
-    width: 0;
-}
-
-.counter-box {
-    position: relative;
-    overflow: hidden;
-    background: #151210;
-}
-
-.counter-text {
-    position: relative;
-    z-index: 4;
-    transition: opacity 0.4s ease;
-}
-
-.counter-text.fade-out {
-    opacity: 0;
-}
-
-.counter-door {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    background: #181411;
-    border: 2px solid var(--border-vintage);
-    z-index: 2;
-    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-    
-    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.8), inset 0 0 5px rgba(212, 175, 55, 0.1);
-}
-
-.counter-door::after {
-    content: '';
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-    pointer-events: none;
-}
-
-.counter-door.door-left {
-    left: 0;
-    border-right: 3px solid var(--border-gold);
-}
-
-.counter-door.door-right {
-    right: 0;
-    border-left: 3px solid var(--border-gold);
-}
-
-.counter-box.opening .door-left {
-    transform: translateX(-100%);
-}
-
-.counter-box.opening .door-right {
-    transform: translateX(100%);
-}
-
-.dialogue-bubble {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
-    z-index: 5;
-    background: var(--bg-card);
-    border: 2px solid var(--gold);
-    padding: 12px 18px;
-    border-radius: 4px;
-    width: 85%;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
-    font-family: 'Courier New', Courier, monospace;
-    color: var(--text-main);
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    text-align: center;
-    image-rendering: pixelated;
-}
-
-.dialogue-bubble.show {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-}
-
 body.menu-body {
     display: flex;
     align-items: center;
@@ -598,9 +584,6 @@ body.menu-body {
     border-color: var(--text-muted);
 }
 
-/* --- ESTILOS PARA LOS ICONOS PIXEL ART --- */
-
-/* --- ESTILOS PARA LOS ICONOS PIXEL ART --- */
 .item-icon {
     width: 32px;
     height: 32px;
@@ -618,4 +601,18 @@ body.menu-body {
     height: 36px;
     object-fit: contain;
     image-rendering: pixelated;
+}
+
+.btn-action {
+    padding: 5px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    border: 1px solid var(--border-vintage);
+    background: #24201c;
+    color: var(--text-main);
+}
+
+.btn-action:hover {
+    background: #36302a;
 }

@@ -17,7 +17,6 @@ if (!$usuario) {
 $stmtCatalogo = $pdo->query("SELECT * FROM catalogo_objetos");
 $objetosCatalogo = $stmtCatalogo->fetchAll(PDO::FETCH_ASSOC);
 
-// CORREGIDO: Añadido c.imagen a la consulta del inventario
 $stmtInventario = $pdo->prepare("
     SELECT i.*, c.nombre, c.descripcion, c.imagen 
     FROM inventario i 
@@ -55,8 +54,26 @@ $inventarioJugador = $stmtInventario->fetchAll(PDO::FETCH_ASSOC);
                     <div class="client-section">
                         <h2>Mostrador de Atención</h2>
                         <div class="counter-box" id="counterBox">
+                            <!-- Puertas correderas de animación -->
                             <div class="counter-door door-left"></div>
                             <div class="counter-door door-right"></div>
+
+                            <!-- Contenedor principal del cliente (alineado a la izquierda) -->
+                            <div id="clientContainer" class="client-container" style="display: none;">
+                                <div class="client-portrait-frame">
+                                    <div id="clientPortrait" class="client-portrait-sprite"></div>
+                                </div>
+                                
+                                <!-- Burbuja de diálogo flotante -->
+                                <div class="dialogue-bubble" id="dialogueBubble">
+                                    <h3 id="clientName">Ciudadano del Sector</h3>
+                                    <p id="clientDialogueText">"Escúchame, necesito vender esto rápido..."</p>
+                                    <div class="negotiation-buttons" id="negotiationButtons" style="display: none;">
+                                        <button class="btn-action btn-accept" onclick="aceptarTrato()">Aceptar Trato</button>
+                                        <button class="btn-action btn-reject" onclick="rechazarTrato()">Rechazar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -71,7 +88,6 @@ $inventarioJugador = $stmtInventario->fetchAll(PDO::FETCH_ASSOC);
                                 <?php foreach ($inventarioJugador as $item): ?>
                                     <div class="inventory-slot" title="<?php echo htmlspecialchars($item['nombre']); ?>">
                                         <?php 
-                                            // Usamos c.imagen y un valor por defecto si estuviera vacío
                                             $imagenItem = !empty($item['imagen']) ? $item['imagen'] : 'Icon14_01.png'; 
                                         ?>
                                         <img src="assets/icons/<?php echo htmlspecialchars($imagenItem); ?>" alt="<?php echo htmlspecialchars($item['nombre']); ?>" class="slot-icon">
@@ -89,7 +105,6 @@ $inventarioJugador = $stmtInventario->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($objetosCatalogo as $obj): ?>
                         <div class="item-card" data-id="<?php echo $obj['id']; ?>">
                             <?php 
-                                // CORREGIDO: Usamos $obj['imagen'] en lugar de $obj['icono']
                                 $imagenObj = !empty($obj['imagen']) ? $obj['imagen'] : 'Icon14_01.png'; 
                             ?>
                             <img src="assets/icons/<?php echo htmlspecialchars($imagenObj); ?>" alt="" class="item-icon">
