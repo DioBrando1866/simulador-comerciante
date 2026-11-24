@@ -13,13 +13,11 @@ function llamarCliente() {
     const noClientMsg = document.getElementById('noClientMessage');
     const clientContainer = document.getElementById('clientContainer');
 
-    // 1. Ocultar mensaje de vacío y abrir puertas
     if (noClientMsg) {
         noClientMsg.style.display = 'none';
     }
     counterBox.classList.add('opening');
 
-    // 2. Generar retrato aleatorio (hoja 1-29, celda 0-7)
     const numeroHoja = Math.floor(Math.random() * 29) + 1;
     const indexRetrato = Math.floor(Math.random() * 8);
     
@@ -36,7 +34,6 @@ function llamarCliente() {
     portraitElement.style.backgroundSize = `${columnas * 100}% ${filas * 100}%`;
     portraitElement.style.backgroundPosition = `${posX}% ${posY}%`;
 
-    // 3. Mostrar el contenedor del cliente y activar botones tras la animación de las puertas
     setTimeout(() => {
         clientContainer.style.display = 'flex';
         document.getElementById('negotiationButtons').style.display = 'flex';

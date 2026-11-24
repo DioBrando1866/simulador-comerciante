@@ -54,17 +54,12 @@ $inventarioJugador = $stmtInventario->fetchAll(PDO::FETCH_ASSOC);
                     <div class="client-section">
                         <h2>Mostrador de Atención</h2>
                         <div class="counter-box" id="counterBox">
-                            <!-- Puertas correderas de animación -->
                             <div class="counter-door door-left"></div>
                             <div class="counter-door door-right"></div>
-
-                            <!-- Contenedor principal del cliente (alineado a la izquierda) -->
                             <div id="clientContainer" class="client-container" style="display: none;">
                                 <div class="client-portrait-frame">
                                     <div id="clientPortrait" class="client-portrait-sprite"></div>
                                 </div>
-                                
-                                <!-- Burbuja de diálogo flotante -->
                                 <div class="dialogue-bubble" id="dialogueBubble">
                                     <h3 id="clientName">Ciudadano del Sector</h3>
                                     <p id="clientDialogueText">"Escúchame, necesito vender esto rápido..."</p>
